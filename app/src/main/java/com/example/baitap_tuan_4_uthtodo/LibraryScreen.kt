@@ -1,4 +1,5 @@
 package com.example.baitap_tuan_4_uthtodo
+import android.R
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -38,7 +39,12 @@ fun LibraryScreen(navController: NavController) {
                                 val thanhCong = sinhVien.muonSach(sach)
                                 thongBao = if (thanhCong) "Mượn thành công ${sach.hienThiThongTin()}" else "Sách đã có người mượn!"
                             },
-                            enabled = sach.isAvailable()
+                            enabled = sach.isAvailable(),
+                            colors= ButtonDefaults.buttonColors(
+                                Color(0xFF2F5BEA), // nền xanh
+                                contentColor = Color.White,
+                                Color.Gray
+                            )
                         ) { Text("Mượn") }
                     }
                 }

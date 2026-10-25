@@ -15,8 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -29,7 +32,33 @@ fun TodoOnboardingScreen(navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
-        Row(modifier = Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.End) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically // Căn giữa theo chiều dọc
+        ) {
+            // Logo nhỏ bên trái (Icon + Chữ)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                UthAppIcon(size = 32.dp)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = buildAnnotatedString {
+                        withStyle(style = SpanStyle(color = Color(0xFF1C1C1E), fontWeight = FontWeight.Bold)) {
+                            append("UTH ")
+                        }
+                        withStyle(style = SpanStyle(
+                            color = Color(0xFF2F5BEA),
+                            fontWeight = FontWeight.Bold
+                        )
+                        ) {
+                            append("Todo")
+                        }
+                    },
+                    fontSize = 18.sp
+                )
+            }
+
+            // Nút Bỏ qua bên phải
             TextButton(onClick = { navController.navigate("bai2_library") }) {
                 Text("Bỏ qua", color = Color.Black)
             }

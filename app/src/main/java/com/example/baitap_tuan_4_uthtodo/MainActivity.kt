@@ -1,6 +1,5 @@
 package com.example.baitap_tuan_4_uthtodo
 
-
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,12 +12,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.baitap_tuan_4_uthtodo.ui.theme.Baitap_tuan_4_uthtodoTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
+            Baitap_tuan_4_uthtodoTheme { // Đảm bảo tên này khớp với Theme.kt
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     AppNavigation()
                 }
@@ -31,16 +31,29 @@ class MainActivity : ComponentActivity() {
 fun AppNavigation() {
     val navController = rememberNavController()
 
-    // Điểm bắt đầu là màn hình Bài 1
-    NavHost(navController = navController, startDestination = "bai1_onboarding") {
+    // ĐIỂM BẮT ĐẦU LÀ MÀN HÌNH START
+    NavHost(navController = navController, startDestination = "start") {
 
-        // --- BÀI 1 ---
+        // --- MÀN HÌNH START (NỀN XANH, LOGO) ---
+        composable("start") {
+            StartScreen(navController)
+
+            // Tự động chuyển sang Bài 1 sau 2.5 giây
+            androidx.compose.runtime.LaunchedEffect(Unit) {
+                kotlinx.coroutines.delay(2500L)
+                navController.navigate("bai1_onboarding") {
+                    popUpTo("start") { inclusive = true } // Xóa Start khỏi lịch sử
+                }
+            }
+        }
+
+        // --- BÀI 1: ONBOARDING ---
         composable("bai1_onboarding") { TodoOnboardingScreen(navController) }
 
-        // --- BÀI 2 ---
+        // --- BÀI 2: QUẢN LÝ THƯ VIỆN ---
         composable("bai2_library") { LibraryScreen(navController) }
 
-        // --- BÀI 3 (Data Flow) ---
+        // --- BÀI 3: DATA FLOW ---
         composable("bai3_forget") { AuthForgetPasswordScreen(navController) }
 
         composable(
