@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Baitap_tuan_4_uthtodoTheme { // Đảm bảo tên này khớp với Theme.kt
+            Baitap_tuan_4_uthtodoTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     AppNavigation()
                 }
@@ -32,20 +32,30 @@ fun AppNavigation() {
     val navController = rememberNavController()
 
     // ĐIỂM BẮT ĐẦU LÀ MÀN HÌNH START
-    NavHost(navController = navController, startDestination = "start") {
+    NavHost(navController = navController, startDestination = "start") { // thay startDestination bằng "start"
 
         // --- MÀN HÌNH START (NỀN XANH, LOGO) ---
         composable("start") {
             StartScreen(navController)
 
-            // Tự động chuyển sang Bài 1 sau 2.5 giây
+            // Tự động chuyển sang Bài 1 sau 2.5 giây (Sửa lại sang AuthLoginScreen)
             androidx.compose.runtime.LaunchedEffect(Unit) {
                 kotlinx.coroutines.delay(2500L)
-                navController.navigate("bai1_onboarding") {
+                navController.navigate("auth_login") {
                     popUpTo("start") { inclusive = true } // Xóa Start khỏi lịch sử
                 }
             }
         }
+        
+        // --- MÀN HÌNH ĐĂNG NHẬP VÀ ĐĂNG KÝ (EMAIL/GOOGLE/FACEBOOK) ---
+        composable("auth_login") { AuthLoginScreen(navController) }
+        composable("auth_register") { AuthRegisterScreen(navController) }
+
+        // --- MÀN HÌNH TRANG CHỦ ---
+        composable("home") { HomeScreen(navController) }
+
+        // --- MÀN HÌNH HỒ SƠ ---
+        composable("profile") { ProfileScreen(navController) }
 
         // --- BÀI 1: ONBOARDING ---
         composable("bai1_onboarding") { TodoOnboardingScreen(navController) }

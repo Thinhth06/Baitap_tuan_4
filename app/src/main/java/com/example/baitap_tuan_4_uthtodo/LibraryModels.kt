@@ -42,6 +42,7 @@ class Sach(maSach: String, tenSach: String) : IQuanLy {
     fun isAvailable() = conHang
     fun setTrangThai(trangThai: Boolean) { this.conHang = trangThai }
 
+    fun getTen() = ten // lấy tên sách
     override fun hienThiThongTin(): String {
         val status = if (conHang) "Sẵn sàng" else "Đã mượn"
         return "Sách: $ten ($ma) - Trạng thái: $status"
