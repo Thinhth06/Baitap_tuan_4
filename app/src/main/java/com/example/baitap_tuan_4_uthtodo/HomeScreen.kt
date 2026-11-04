@@ -32,10 +32,16 @@ data class TaskModel(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController) {
-    val displayName = "Minh Anh"
-    val initials = "MA"
+    val auth = FirebaseAuth.getInstance()
+    val currentUser = auth.currentUser
+    
+    // Lấy tên từ Firebase Auth, nếu không có thì lấy phần trước dấu @ của email, nếu không có nữa thì là "Hữu Thịnh"
+    val rawName = currentUser?.displayName ?: currentUser?.email?.substringBefore("@") ?: "Hữu Thịnh"
+    val displayName = if (rawName.equals("tht12306", ignoreCase = true) || rawName.isBlank()) "Hữu Thịnh" else rawName
+    
+    val initials = "HT"
 
-    // Danh sách task đúng chuẩn ảnh mẫu (Nộp bài tập lập trình di động là "Học tập")
+    // Danh sách task đúng chuẩn ảnh mẫu
     val taskList = remember {
         mutableStateListOf(
             TaskModel(1, "Tập thể dục 30 phút", "06:30", "Cuộc sống", true),
@@ -185,7 +191,6 @@ fun HomeScreen(navController: NavController) {
 
 @Composable
 fun TaskItemInteractive(task: TaskModel, onToggle: () -> Unit) {
-    // Phân màu tag đúng chuẩn ảnh mẫu: Học tập (Xanh dương), Cuộc sống (Cam ấm)
     val (tagBg, tagColor) = if (task.tag == "Học tập") {
         Pair(Color(0xFFE5EDFF), Color(0xFF4A7DFF))
     } else {
@@ -212,7 +217,6 @@ fun TaskItemInteractive(task: TaskModel, onToggle: () -> Unit) {
             }
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
-                // Thêm gạch ngang chữ (TextDecoration.LineThrough) khi task đã hoàn thành
                 Text(
                     text = task.title, 
                     fontWeight = FontWeight.Bold, 

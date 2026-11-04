@@ -22,10 +22,11 @@ import com.google.firebase.auth.FirebaseAuth
 @Composable
 fun ProfileScreen(navController: NavController) {
     val auth = FirebaseAuth.getInstance()
+    val currentUser = auth.currentUser
     
-    val displayName = "Minh Anh"
-    val email = "minhanh@example.com"
-    val initials = "MA"
+    val displayName = "Hữu Thịnh"
+    val email = currentUser?.email ?: "tht12306@gmail.com"
+    val initials = "HT"
 
     Scaffold(
         topBar = {
@@ -91,7 +92,7 @@ fun ProfileScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Tách thành 3 Card riêng biệt nằm trong Row giống hệt ảnh mẫu bạn gửi
+            // 3 Card riêng biệt cho stats
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
